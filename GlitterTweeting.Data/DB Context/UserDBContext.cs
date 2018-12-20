@@ -41,6 +41,11 @@ namespace GlitterTweeting.Data.DB_Context
         public async Task<Guid> CreateNewUser(UserRegisterDTO userInput)
         {
             User user = ObjectFactory.CreateNewUserObject(userInput);
+            user.Country = "India";
+            user.FirstName = "Teenu";
+            user.LastName = "hfkudf";
+           
+
             DBContext.User.Add(user);
             await DBContext.SaveChangesAsync();
             return user.ID;

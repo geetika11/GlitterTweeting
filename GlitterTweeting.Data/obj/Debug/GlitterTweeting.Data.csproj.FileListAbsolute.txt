@@ -18,3 +18,17 @@ C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Data\obj\D
 C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Data\obj\Debug\GlitterTweeting.Data.dll
 C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Data\obj\Debug\GlitterTweeting.Data.pdb
 C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Data\bin\Debug\GlitterTweeting.Shared.dll.config
+C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Data\bin\Debug\Microsoft.Owin.dll
+C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Data\bin\Debug\Owin.dll
+C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Data\bin\Debug\Microsoft.Owin.xml
+C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Data\bin\Debug\Microsoft.Owin.Cors.dll
+C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Data\bin\Debug\System.Web.Cors.dll
+C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Data\bin\Debug\Microsoft.Owin.Cors.xml
+C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Data\bin\Debug\Newtonsoft.Json.dll
+C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Data\bin\Debug\System.Net.Http.Formatting.dll
+C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Data\bin\Debug\System.Web.Http.Cors.dll
+C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Data\bin\Debug\System.Web.Http.dll
+C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Data\bin\Debug\Newtonsoft.Json.xml
+C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Data\bin\Debug\System.Net.Http.Formatting.xml
+C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Data\bin\Debug\System.Web.Http.xml
+C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Data\bin\Debug\System.Web.Http.Cors.xml

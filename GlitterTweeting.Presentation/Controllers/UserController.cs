@@ -11,9 +11,11 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace GlitterTweeting.Presentation.Controllers
 {
+    [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
     public class UserController : ApiController
     {
         private UserBusinessContext UserBusinessContext;
@@ -36,7 +38,11 @@ namespace GlitterTweeting.Presentation.Controllers
             ModelFactory = new ModelFactory();
         }
 
+       
+
+
         [AllowAnonymous]
+        [Route("api/User")]
         public async Task<IHttpActionResult> Post([FromBody] UserRegisterModel user)
         {
             try

@@ -115,3 +115,11 @@ C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Presentati
 C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Presentation\bin\GlitterTweeting.Business.dll.config
 C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Presentation\bin\GlitterTweeting.Shared.dll.config
 C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Presentation\bin\EntityFramework.SqlServer.xml
+C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Presentation\bin\Microsoft.Owin.Cors.dll
+C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Presentation\bin\Microsoft.Owin.dll
+C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Presentation\bin\Owin.dll
+C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Presentation\bin\System.Web.Cors.dll
+C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Presentation\bin\Microsoft.Owin.xml
+C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Presentation\bin\Microsoft.Owin.Cors.xml
+C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Presentation\bin\System.Web.Http.Cors.dll
+C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Presentation\bin\System.Web.Http.Cors.xml
