@@ -86,6 +86,7 @@
   <ItemGroup>
     <Compile Include="Business Objects\UserBusinessContext.cs" />
     <Compile Include="Exceptions\AlreadyExistsException.cs" />
+    <Compile Include="Exceptions\InvalidCredentialsException.cs" />
     <Compile Include="PasswordHasher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

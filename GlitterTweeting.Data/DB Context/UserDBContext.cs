@@ -41,9 +41,7 @@ namespace GlitterTweeting.Data.DB_Context
         public async Task<Guid> CreateNewUser(UserRegisterDTO userInput)
         {
             User user = ObjectFactory.CreateNewUserObject(userInput);
-            user.Country = "India";
-            user.FirstName = "Teenu";
-            user.LastName = "hfkudf";
+           
            
 
             DBContext.User.Add(user);
@@ -60,6 +58,12 @@ namespace GlitterTweeting.Data.DB_Context
             if (DBContext.User.Where(u => u.Email == Email).Any())
                 return false;
             return true;
+        }
+        async public Task<UserBasicDTO> GetUser(Guid id)
+        {
+            User user = await DBContext.User.FindAsync(id);
+            UserBasicDTO userBasicInfo = UserBasicMapper.Map<User, UserBasicDTO>(user);
+            return userBasicInfo;
         }
 
         /// <summary>
@@ -85,18 +89,25 @@ namespace GlitterTweeting.Data.DB_Context
             }
             return null;
         }
-
+        async public Task<UserCompleteDTO> GetUserCompleteInfo(UserAuthDTO userAuthDTO)
+        {
+            User user = await DBContext.User.FindAsync(userAuthDTO.ID);
+            UserCompleteDTO userCompleteDTO = new UserCompleteDTO();
+            userCompleteDTO.ID = user.ID;
+            userCompleteDTO.FirstName = user.FirstName;
+            userCompleteDTO.LastName = user.LastName;
+            userCompleteDTO.PhoneNumber = user.PhoneNumber;
+            userCompleteDTO.Country = user.Country;
+            userCompleteDTO.Email = user.Email;
+            userCompleteDTO.Image = user.Image;
+            return userCompleteDTO;
+        }
         /// <summary>
         /// Returns the user with the given ID.
         /// </summary>
         /// <param name="id">ID of the user</param>
         /// <returns>Basic info about the user</returns>
-        async public Task<UserBasicDTO> GetUser(Guid id)
-        {
-            User user = await DBContext.User.FindAsync(id);
-            UserBasicDTO userBasicInfo = UserBasicMapper.Map<User, UserBasicDTO>(user);
-            return userBasicInfo;
-        }
+      
 
         /// <summary>
         /// Checks if a user with given ID exists in the database. If it exists, true is returned, else false is returned.

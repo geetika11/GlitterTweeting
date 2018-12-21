@@ -60,25 +60,41 @@ namespace GlitterTweeting.Business.Business_Objects
 
 
             }
+        public async Task<UserCompleteDTO> LoginUserCheck(UserLoginDTO userLoginDTO)
+        {
+            UserAuthDTO userAuthInfo = UserDBContext.GetCredentialsByEmail(userLoginDTO.Email);
+            if (userAuthInfo == null)
+            {
+                throw new Exceptions.InvalidCredentialsException("Email not found");
+            }
+            if (PasswordHasher.ValidatePassword(userLoginDTO.Password, userAuthInfo.Password))
+            {
+                UserCompleteDTO userCompleteDTO = await UserDBContext.GetUserCompleteInfo(userAuthInfo);
+                return userCompleteDTO;
+            }
+            else
+            {
+                throw new Exceptions.InvalidCredentialsException("Password is Incorrect");
+            }
+        }
+        /// <summary>
+        /// Checks if the login is valid.
+        /// </summary>
+        /// <param name="email">Email of the user</param>
+        /// <param name="password">Password of the user</param>
+        /// <returns>ID of the user or exception</returns>
 
-            /// <summary>
-            /// Checks if the login is valid.
-            /// </summary>
-            /// <param name="email">Email of the user</param>
-            /// <param name="password">Password of the user</param>
-            /// <returns>ID of the user or exception</returns>
 
+        /// <summary>
+        /// Returns requested user
+        /// </summary>
+        /// <param name="id">ID of the requested user</param>
+        /// <returns>Requested user information</returns>
 
-            /// <summary>
-            /// Returns requested user
-            /// </summary>
-            /// <param name="id">ID of the requested user</param>
-            /// <returns>Requested user information</returns>
-
-            /// <summary>
-            /// Dispose to class
-            /// </summary>
-            public void Dispose()
+        /// <summary>
+        /// Dispose to class
+        /// </summary>
+        public void Dispose()
             {
                 Dispose(true);
                 GC.SuppressFinalize(this);

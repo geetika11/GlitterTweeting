@@ -38,7 +38,33 @@ namespace GlitterTweeting.Presentation.Controllers
             ModelFactory = new ModelFactory();
         }
 
-       
+        [AllowAnonymous]
+        [Route("api/login")]
+        
+        public async Task<IHttpActionResult> Post([FromBody] UserLoginModel user)
+        {
+            try
+            {
+                if (user == null)
+                {
+                    return BadRequest("Invalid passed data");
+                }
+
+                if (!ModelState.IsValid)
+                {
+
+                    return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.Forbidden, JsonConvert.SerializeObject(string.Join(" | ", ModelState.Values))));
+
+                }
+                UserLoginDTO useLoginDTO = UserMapper.Map<UserLoginModel, UserLoginDTO>(user);
+                UserCompleteDTO loginUser = await UserBusinessContext.LoginUserCheck(useLoginDTO);
+                return Ok(new { User = loginUser });
+            }
+            catch (Exception e)
+            {
+                return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.Forbidden, JsonConvert.SerializeObject(e.Message)));
+            }
+        }
 
 
         [AllowAnonymous]
@@ -67,6 +93,7 @@ namespace GlitterTweeting.Presentation.Controllers
                 return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.Forbidden, JsonConvert.SerializeObject(e.Message)));
             }
         }
+
 
     }
 }
