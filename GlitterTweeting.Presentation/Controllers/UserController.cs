@@ -73,11 +73,7 @@ namespace GlitterTweeting.Presentation.Controllers
         {
             try
             {
-                if (user == null)
-                {
-                    return BadRequest("Invalid passed data");
-                }
-
+                
                 if (!ModelState.IsValid)
                 {
 
