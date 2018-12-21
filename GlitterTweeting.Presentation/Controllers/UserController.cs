@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
 
@@ -28,7 +29,7 @@ namespace GlitterTweeting.Presentation.Controllers
         public UserController()
         {
             UserBusinessContext = new UserBusinessContext();
-
+            
             var userMappingConfig = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<UserRegisterModel, UserRegisterDTO>();
@@ -37,7 +38,11 @@ namespace GlitterTweeting.Presentation.Controllers
 
             ModelFactory = new ModelFactory();
         }
-
+        /// <summary>
+        /// login
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [Route("api/login")]
         
@@ -58,7 +63,13 @@ namespace GlitterTweeting.Presentation.Controllers
                 }
                 UserLoginDTO useLoginDTO = UserMapper.Map<UserLoginModel, UserLoginDTO>(user);
                 UserCompleteDTO loginUser = await UserBusinessContext.LoginUserCheck(useLoginDTO);
-                return Ok(new { User = loginUser });
+                HttpContext.Current.Session["UserID"] = loginUser.ID;
+                HttpContext.Current.Session["FirstName"] = loginUser.FirstName;
+
+                var Id = HttpContext.Current.Session["UserID"];
+                var UserName = HttpContext.Current.Session["FirstName"];
+
+                return Ok(new { ID=Id, Username=UserName});
             }
             catch (Exception e)
             {
@@ -66,7 +77,11 @@ namespace GlitterTweeting.Presentation.Controllers
             }
         }
 
-
+        /// <summary>
+        /// register
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [Route("api/User")]
         public async Task<IHttpActionResult> Post([FromBody] UserRegisterModel user)
