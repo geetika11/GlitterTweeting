@@ -17,7 +17,6 @@ C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Shared\bin
 C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Shared\bin\Debug\Microsoft.Owin.dll
 C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Shared\bin\Debug\Owin.dll
 C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Shared\bin\Debug\Microsoft.Owin.xml
-C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Shared\obj\Debug\GlitterTweeting.Shared.csprojAssemblyReference.cache
 C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Shared\bin\Debug\Microsoft.Owin.Cors.dll
 C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Shared\bin\Debug\System.Web.Cors.dll
 C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Shared\bin\Debug\Microsoft.Owin.Cors.xml
@@ -29,3 +28,4 @@ C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Shared\bin
 C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Shared\bin\Debug\System.Net.Http.Formatting.xml
 C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Shared\bin\Debug\System.Web.Http.xml
 C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Shared\bin\Debug\System.Web.Http.Cors.xml
+C:\Users\geetikavarshney\source\repos\GlitterTweeting\GlitterTweeting.Shared\obj\Debug\GlitterTweeting.Shared.csprojAssemblyReference.cache

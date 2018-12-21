@@ -44,8 +44,7 @@ namespace GlitterTweeting.Presentation.Controllers
         /// <param name="user"></param>
         /// <returns></returns>
         [AllowAnonymous]
-        [Route("api/login")]
-        
+        [Route("api/login")]        
         public async Task<IHttpActionResult> Post([FromBody] UserLoginModel user)
         {
             try
@@ -54,12 +53,9 @@ namespace GlitterTweeting.Presentation.Controllers
                 {
                     return BadRequest("Invalid passed data");
                 }
-
                 if (!ModelState.IsValid)
                 {
-
                     return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.Forbidden, JsonConvert.SerializeObject(string.Join(" | ", ModelState.Values))));
-
                 }
                 UserLoginDTO useLoginDTO = UserMapper.Map<UserLoginModel, UserLoginDTO>(user);
                 UserCompleteDTO loginUser = await UserBusinessContext.LoginUserCheck(useLoginDTO);
