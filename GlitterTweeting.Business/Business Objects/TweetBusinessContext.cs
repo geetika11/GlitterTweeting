@@ -33,6 +33,15 @@ namespace GlitterTweeting.Business.Business_Objects
             IList<GetAllTweetsDTO> gdto=tweetDBContext.GetAllTweets(id);
             return gdto;
         }
-
+        public bool DeleteTweet(Guid uid,Guid tid)
+        {
+            return tweetDBContext.DeleteTweet(uid, tid);
+        }
+        public bool UpdateTweet(NewTweetDTO newTweetDTO, Guid tid)
+        {
+             tweetDBContext.UpdateTweet(newTweetDTO,tid);
+            return true;
+      
+        }
     }
 }

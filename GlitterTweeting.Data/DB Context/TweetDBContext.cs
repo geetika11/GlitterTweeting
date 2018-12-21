@@ -65,6 +65,29 @@ namespace GlitterTweeting.Data.DB_Context
             return tweetList;
         }
 
+
+        public bool DeleteTweet(Guid uid, Guid tid)
+        {
+            Tweet tweet = DBContext.Tweet.Where(ds => ds.ID == tid).FirstOrDefault();
+            User user = DBContext.User.Where(dr => dr.ID == uid).FirstOrDefault();
+            if (user.ID == tweet.UserID)
+            {
+                DBContext.Tweet.Remove(tweet);
+                DBContext.SaveChanges();
+                return true;
+            }
+            else { return false; }
+        }
+
+        public void UpdateTweet(NewTweetDTO updatedTweet, Guid tid)
+        {
+            Tweet tweet = DBContext.Tweet.Where(ds => ds.ID == tid).FirstOrDefault();
+            tweet.Message = updatedTweet.Message;
+            tweet.CreatedAt = System.DateTime.Now;
+            DBContext.SaveChanges();
+            // Tweet newTweet = tweetMapper.Map<NewTweetDTO, Tweet>(tweetInput);
+
+        }
         public void Dispose()
         {
             throw new NotImplementedException();

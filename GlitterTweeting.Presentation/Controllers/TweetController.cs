@@ -65,5 +65,25 @@ namespace GlitterTweeting.Presentation.Controllers
             return gd;
         }
 
+        [HttpDelete]
+     //   [Route("api/user/{UserId}/{tweetid}")]
+        [Route("api/user/deletetweet")]
+        public bool Delete([FromBody]NewTweetModel ng)
+        {
+
+            Guid uid = ng.UserID;
+            Guid tid = Guid.Parse("f08c2f05-80c6-4def-a681-66c36adb86bc");
+
+            return tweetBusinessContext.DeleteTweet(uid,tid);
+        }
+        [HttpPut]
+        [Route("api/user/updatetweet")]
+        public bool Put ([FromBody] NewTweetDTO updatedTweet)
+        {
+            Guid tid = Guid.Parse("34052bc5-ebd5-4a07-8eb4-6824c38cd24b");
+            return tweetBusinessContext.UpdateTweet(updatedTweet,tid);
+
+        }
+
     }
 }
