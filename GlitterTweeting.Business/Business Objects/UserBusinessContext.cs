@@ -77,23 +77,24 @@ namespace GlitterTweeting.Business.Business_Objects
                 throw new Exceptions.InvalidCredentialsException("Password is Incorrect");
             }
         }
-        /// <summary>
-        /// Checks if the login is valid.
-        /// </summary>
-        /// <param name="email">Email of the user</param>
-        /// <param name="password">Password of the user</param>
-        /// <returns>ID of the user or exception</returns>
 
+        public bool UnFollow(Guid loggedinuserid, Guid usertounfollow)
+        {
+            UserDBContext.UnFollow(loggedinuserid, usertounfollow);
+            return true;
+        }
+        public bool Follow(Guid loggedinuserid, Guid usertofollow)
+        {
+            UserDBContext.Follow(loggedinuserid,usertofollow);
+            return true;
+        }
 
-        /// <summary>
-        /// Returns requested user
-        /// </summary>
-        /// <param name="id">ID of the requested user</param>
-        /// <returns>Requested user information</returns>
+        public IList<UserBasicDTO> GetAllFollowers(Guid loggedinuserid)
+        {
+            IList<UserBasicDTO> gdto = UserDBContext.GetAllFollowers(loggedinuserid);
+            return gdto;
+        }
 
-        /// <summary>
-        /// Dispose to class
-        /// </summary>
         public void Dispose()
             {
                 Dispose(true);

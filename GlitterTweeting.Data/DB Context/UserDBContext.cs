@@ -104,7 +104,7 @@ namespace GlitterTweeting.Data.DB_Context
         /// </summary>
         /// <param name="id">ID of the user</param>
         /// <returns>Basic info about the user</returns>
-      
+
 
         /// <summary>
         /// Checks if a user with given ID exists in the database. If it exists, true is returned, else false is returned.
@@ -120,37 +120,91 @@ namespace GlitterTweeting.Data.DB_Context
             }
             return false;
         }
-        /// <summary>
-        /// Dispose function to clean up
-        /// </summary>
-        public void Dispose()
+        public bool UnFollow(Guid loggedinuserid, Guid usertounfollow)
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            Follow unfollow = DBContext.Follow.Where(ds => ds.Followed_UserID == usertounfollow).FirstOrDefault();
+            DBContext.Follow.Remove(unfollow);
+            DBContext.SaveChanges();
+            return true;
         }
 
-        /// <summary>
-        /// virtual dispose to class
-        /// </summary>
-        /// <param name="disposing"></param>
-        protected virtual void Dispose(bool disposing)
+
+        public IList<UserBasicDTO> GetAllFollowers(Guid userloggedinid)
         {
-            if (disposing)
+            IList<UserBasicDTO> followersList = new List<UserBasicDTO>();
+            UserBasicDTO followers;
+            User user;
+          IEnumerable<Follow> followeduser = DBContext.Follow.Where(ds => ds.Follower_UserID== userloggedinid);
+          
+           
+            foreach (var item in followeduser)
             {
-                if (DBContext != null)
-                {
-                    DBContext.Dispose();
-                }
+                followers = new UserBasicDTO();
+                user = new User();
+                Follow Followers = DBContext.Follow.Where(de => de.Followed_UserID == item.Followed_UserID).FirstOrDefault();
+                
+                user = DBContext.User.Where(dr => dr.ID == Followers.Followed_UserID).FirstOrDefault();
+                followers.Email = user.Email;
+                followers.FirstName = user.FirstName;
+                followers.LastName = user.LastName;
+                followers.Image = user.Image;
+                followersList.Add(followers);
+            }
+            return followersList;
+        }
+
+
+        public bool Follow(Guid loggedinuserid, Guid usertofollow)
+        {
+              Follow follow1 = DBContext.Follow.Where(ds => ds.Followed_UserID == usertofollow).FirstOrDefault();
+            if (follow1 != null)
+            {
+                return false;
+            }
+
+            else
+            {
+                Follow follow = new Follow();
+                follow.ID = System.Guid.NewGuid();
+                follow.Follower_UserID = loggedinuserid;
+                follow.Followed_UserID = usertofollow;
+                DBContext.Follow.Add(follow);
+                DBContext.SaveChanges();
+                return true;
             }
         }
+        
+    /// <summary>
+    /// Dispose function to clean up
+    /// </summary>
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
 
-        /// <summary>
-        /// Destructor to class
-        /// </summary>
-        ~UserDBContext()
+    /// <summary>
+    /// virtual dispose to class
+    /// </summary>
+    /// <param name="disposing"></param>
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing)
         {
-            Dispose(false);
+            if (DBContext != null)
+            {
+                DBContext.Dispose();
+            }
         }
+    }
+
+    /// <summary>
+    /// Destructor to class
+    /// </summary>
+    ~UserDBContext()
+    {
+        Dispose(false);
+    }
 
 
 
