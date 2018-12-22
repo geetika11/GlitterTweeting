@@ -28,8 +28,6 @@ namespace GlitterTweeting.Presentation.Controllers
                 cfg.CreateMap<NewTweetModel, NewTweetDTO>();
             });
             TweetMapper = new Mapper(config);
-
-          
         }
         // GET: api/Tweet
         [AllowAnonymous]
@@ -54,12 +52,12 @@ namespace GlitterTweeting.Presentation.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        [Route("api/user/playground")]
+        [Route("Play-Ground")]
         public IList<GetAllTweetsDTO> Get()
         {
-            // string ass  = HttpContext.Current.Session["UserID"].ToString();            
-            // newTweetDTO.UserID = Guid.Parse(ass);
-            Guid abc = Guid.Parse("84559e52-6ffd-4db7-a1eb-1ca25995cee0");
+             string ass  = HttpContext.Current.Session["UserID"].ToString();            
+            Guid abc = Guid.Parse(ass);
+            //Guid abc = Guid.Parse("84559e52-6ffd-4db7-a1eb-1ca25995cee0");
             IList<GetAllTweetsDTO>gd= tweetBusinessContext.GetAllTweets(abc);
 
             return gd;
@@ -70,7 +68,7 @@ namespace GlitterTweeting.Presentation.Controllers
         [Route("api/user/deletetweet")]
         public bool Delete([FromBody]NewTweetModel ng)
         {
-
+            //fetch tweetid from url
             Guid uid = ng.UserID;
             Guid tid = Guid.Parse("f08c2f05-80c6-4def-a681-66c36adb86bc");
 
@@ -85,5 +83,31 @@ namespace GlitterTweeting.Presentation.Controllers
 
         }
 
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("api/user/like")]
+        public bool Post()
+        {
+            //fetch tweetid from url and fetch user id from session
+            // string ass  = HttpContext.Current.Session["UserID"].ToString();            
+           
+            Guid userid = Guid.Parse("84559e52-6ffd-4db7-a1eb-1ca25995cee0");
+            Guid tweetid = Guid.Parse("34052bc5-ebd5-4a07-8eb4-6824c38cd24b");
+            tweetBusinessContext.LikeTweet(userid, tweetid);
+            return true;
+        }
+        [AllowAnonymous]
+        [HttpDelete]
+        [Route("api/user/dislike")]
+        public bool Delete()
+        {
+            //fetch tweetid from url and fetch user id from session
+            // string ass  = HttpContext.Current.Session["UserID"].ToString();            
+
+            Guid userid = Guid.Parse("84559e52-6ffd-4db7-a1eb-1ca25995cee0");
+            Guid tweetid = Guid.Parse("34052bc5-ebd5-4a07-8eb4-6824c38cd24b");
+            tweetBusinessContext.DisLikeTweet(userid, tweetid);
+            return true;
+        }
     }
 }

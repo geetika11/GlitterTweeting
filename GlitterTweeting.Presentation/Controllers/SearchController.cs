@@ -1,39 +1,46 @@
-﻿using System;
+﻿using AutoMapper;
+using GlitterTweeting.Business.Business_Objects;
+using GlitterTweeting.Presentation.Models;
+using GlitterTweeting.Shared.DTO.User;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace GlitterTweeting.Presentation.Controllers
 {
     public class SearchController : ApiController
     {
+        private SearchBusinessContext searchBusinessContext;
+        IMapper mapper;
+        public SearchController()
+        {
+            searchBusinessContext = new SearchBusinessContext();
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<AuthorModel, UserBasicDTO>();
+            });
+            mapper = new Mapper(config);
+
+        }
         // GET: api/Search
-        public IEnumerable<string> Get()
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("api/user/searchUser")]
+        public  IList<UserBasicDTO> Post([FromBody] AuthorModel am)
         {
-            return new string[] { "value1", "value2" };
-        }
+            UserBasicDTO DTO = mapper.Map<AuthorModel, UserBasicDTO>(am);
+            IList<UserBasicDTO> allusers = searchBusinessContext.SearchAllUsers(DTO);
 
-        // GET: api/Search/5
-        public string Get(int id)
-        {
-            return "value";
-        }
+            return allusers;
 
-        // POST: api/Search
-        public void Post([FromBody]string value)
-        {
-        }
 
-        // PUT: api/Search/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
 
-        // DELETE: api/Search/5
-        public void Delete(int id)
-        {
+
         }
     }
 }
