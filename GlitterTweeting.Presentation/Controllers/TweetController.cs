@@ -39,7 +39,7 @@ namespace GlitterTweeting.Presentation.Controllers
                 NewTweetDTO newTweetDTO = TweetMapper.Map<NewTweetModel, NewTweetDTO>(newTweetModel);
                 // string ass  = HttpContext.Current.Session["UserID"].ToString();            
                 // newTweetDTO.UserID = Guid.Parse(ass);
-                Guid abc = Guid.Parse("84559e52-6ffd-4db7-a1eb-1ca25995cee0");
+                Guid abc = Guid.Parse("776a7b91-dac4-4546-957c-2298dd72812c");
                 newTweetDTO.UserID = abc;
                 newTweetDTO = await tweetBusinessContext.CreateNewTweet(newTweetDTO);
                 return Ok(new { Tweet = newTweetDTO });
@@ -52,12 +52,12 @@ namespace GlitterTweeting.Presentation.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        [Route("Play-Ground")]
+        [Route("api/user/playground")]
         public IList<GetAllTweetsDTO> Get()
         {
-             string ass  = HttpContext.Current.Session["UserID"].ToString();            
-            Guid abc = Guid.Parse(ass);
-            //Guid abc = Guid.Parse("84559e52-6ffd-4db7-a1eb-1ca25995cee0");
+             //string ass  = HttpContext.Current.Session["UserID"].ToString();            
+            //Guid abc = Guid.Parse(ass);
+            Guid abc = Guid.Parse("776a7b91-dac4-4546-957c-2298dd72812c");
             IList<GetAllTweetsDTO>gd= tweetBusinessContext.GetAllTweets(abc);
 
             return gd;

@@ -61,11 +61,11 @@ namespace GlitterTweeting.Presentation.Controllers
                 UserCompleteDTO loginUser = await UserBusinessContext.LoginUserCheck(useLoginDTO);
                 HttpContext.Current.Session["UserID"] = loginUser.ID;
                 HttpContext.Current.Session["FirstName"] = loginUser.FirstName;
-
+                HttpContext.Current.Session["ProfileImage"] = loginUser.Image;
                 var Id = HttpContext.Current.Session["UserID"];
                 var UserName = HttpContext.Current.Session["FirstName"];
-
-                return Ok(new { ID=Id, Username=UserName});
+                var Image = HttpContext.Current.Session["ProfileImage"];
+                return Ok(new { ID=Id, Username=UserName, image=Image});
             }
             catch (Exception e)
             {
@@ -110,7 +110,7 @@ namespace GlitterTweeting.Presentation.Controllers
             // string ass  = HttpContext.Current.Session["UserID"].ToString();            
 
             Guid loggedinuserid = Guid.Parse("776a7b91-dac4-4546-957c-2298dd72812c");
-            Guid usertofollow = Guid.Parse("906c7730-6766-4bbc-8d29-1f7b13541728");
+            Guid usertofollow = Guid.Parse("84559e52-6ffd-4db7-a1eb-1ca25995cee0");
             UserBusinessContext.Follow(loggedinuserid, usertofollow);
             return true;
         }

@@ -16,7 +16,6 @@ namespace GlitterTweeting.Data.DB_Context
         public TweetDBContext()
         {
             DBContext = new glitterEntities();
-
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Tweet, NewTweetDTO>();
@@ -29,9 +28,6 @@ namespace GlitterTweeting.Data.DB_Context
             });
             TweetMapper = new Mapper(config);
             tweetMapper = new Mapper(configuration);
-
-           
-           
         }
 
         public async Task<NewTweetDTO> CreateNewTweet(NewTweetDTO tweetInput)
@@ -47,13 +43,17 @@ namespace GlitterTweeting.Data.DB_Context
            // NewTweetDTO newTweets = TweetMapper.Map<Tweet, NewTweetDTO>(newTweet);
             return tweetInput;  
         }
+
+
+
+        //isko join se krna h
         public IList<GetAllTweetsDTO> GetAllTweets(Guid id)
         {
             IList<GetAllTweetsDTO> tweetList = new List<GetAllTweetsDTO>();
             GetAllTweetsDTO getAllTweets; 
             User user = DBContext.User.Where(ds => ds.ID == id).FirstOrDefault();
             var author = user.FirstName + user.LastName;
-            IEnumerable<Tweet> tweet = DBContext.Tweet.Where(de => de.UserID == user.ID);
+            IEnumerable<Tweet> tweet = DBContext.Tweet.Where(de => de.UserID == user.ID).OrderByDescending(cd=>cd.CreatedAt);
             foreach(var item in tweet)
             {
                 getAllTweets = new GetAllTweetsDTO();
@@ -62,6 +62,26 @@ namespace GlitterTweeting.Data.DB_Context
                 getAllTweets.UserName = author;
                 tweetList.Add(getAllTweets);
             }
+            IEnumerable< Follow> followers = DBContext.Follow.Where(de => de.Follower_UserID == id);
+
+           foreach (var iter in followers)
+            {
+                IEnumerable<Follow> followed = DBContext.Follow.Where(de => de.Followed_UserID == iter.Followed_UserID);
+                foreach (var iter2 in followed)
+                {    IEnumerable<Tweet> msg = DBContext.Tweet.Where(df => df.UserID == iter2.Followed_UserID).OrderByDescending(cd => cd.CreatedAt);
+                    foreach (var iter1 in msg)
+                    {
+                        User us = DBContext.User.Where(re => re.ID == iter1.UserID).FirstOrDefault();
+                        getAllTweets = new GetAllTweetsDTO();
+                        getAllTweets.Message = iter1.Message;
+                        getAllTweets.CreatedAt = iter1.CreatedAt;
+                        getAllTweets.UserName = us.FirstName + us.LastName;
+                        tweetList.Add(getAllTweets);
+                    }
+                }
+
+            }
+
             return tweetList;
         }
 

@@ -135,8 +135,8 @@ namespace GlitterTweeting.Data.DB_Context
             UserBasicDTO followers;
             User user;
           IEnumerable<Follow> followeduser = DBContext.Follow.Where(ds => ds.Follower_UserID== userloggedinid);
-          
-           
+
+            var i = 0;
             foreach (var item in followeduser)
             {
                 followers = new UserBasicDTO();
@@ -148,7 +148,9 @@ namespace GlitterTweeting.Data.DB_Context
                 followers.FirstName = user.FirstName;
                 followers.LastName = user.LastName;
                 followers.Image = user.Image;
+                followers.Count = i + 1;
                 followersList.Add(followers);
+                i++;
             }
             return followersList;
         }
