@@ -209,6 +209,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\AnalyticsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\TweetController.cs" />
@@ -219,7 +220,9 @@
     </Compile>
     <Compile Include="ModelFactory.cs" />
     <Compile Include="Models\AuthorModel.cs" />
+    <Compile Include="Models\FollowModel.cs" />
     <Compile Include="Models\GetAllTweetsModel.cs" />
+    <Compile Include="Models\LikeTweetModel.cs" />
     <Compile Include="Models\NewTweetModel.cs" />
     <Compile Include="Models\UserLoginModel.cs" />
     <Compile Include="Models\UserRegisterModel.cs" />

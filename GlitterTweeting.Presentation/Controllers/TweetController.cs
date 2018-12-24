@@ -35,12 +35,11 @@ namespace GlitterTweeting.Presentation.Controllers
         public async Task<IHttpActionResult> Post([FromBody] NewTweetModel newTweetModel )
         {
             try
-            { 
-                NewTweetDTO newTweetDTO = TweetMapper.Map<NewTweetModel, NewTweetDTO>(newTweetModel);
-                // string ass  = HttpContext.Current.Session["UserID"].ToString();            
-                // newTweetDTO.UserID = Guid.Parse(ass);
-                Guid abc = Guid.Parse("776a7b91-dac4-4546-957c-2298dd72812c");
-                newTweetDTO.UserID = abc;
+            {
+                NewTweetDTO newTweetDTO =new  NewTweetDTO();
+               // Guid abc = Guid.Parse("776a7b91-dac4-4546-957c-2298dd72812c");
+                newTweetDTO.UserID = newTweetModel.UserID;
+                newTweetDTO.Message = newTweetModel.Message;
                 newTweetDTO = await tweetBusinessContext.CreateNewTweet(newTweetDTO);
                 return Ok(new { Tweet = newTweetDTO });
             }
@@ -86,14 +85,15 @@ namespace GlitterTweeting.Presentation.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("api/user/like")]
-        public bool Post()
-        {
+        public bool Post(LikeTweetModel likeTweetModel) {
+
             //fetch tweetid from url and fetch user id from session
             // string ass  = HttpContext.Current.Session["UserID"].ToString();            
-           
-            Guid userid = Guid.Parse("84559e52-6ffd-4db7-a1eb-1ca25995cee0");
-            Guid tweetid = Guid.Parse("34052bc5-ebd5-4a07-8eb4-6824c38cd24b");
-            tweetBusinessContext.LikeTweet(userid, tweetid);
+
+            LikeTweetDTO liketweetdto = new LikeTweetDTO();
+            liketweetdto.LoggedInUserID = Guid.Parse(likeTweetModel.LoggedInUserID);
+            liketweetdto.TweetID = Guid.Parse(likeTweetModel.TweetID);
+            tweetBusinessContext.LikeTweet(liketweetdto);
             return true;
         }
         [AllowAnonymous]

@@ -2,6 +2,7 @@
 using GlitterTweeting.Data.DB_Context;
 using GlitterTweeting.Shared;
 using GlitterTweeting.Shared.DTO;
+using GlitterTweeting.Shared.DTO.RelationShip;
 using GlitterTweeting.Shared.DTO.User;
 using System;
 using System.Collections.Generic;
@@ -83,10 +84,16 @@ namespace GlitterTweeting.Business.Business_Objects
             UserDBContext.UnFollow(loggedinuserid, usertounfollow);
             return true;
         }
-        public bool Follow(Guid loggedinuserid, Guid usertofollow)
+        public bool Follow(FollowDTO followdto)
         {
-            UserDBContext.Follow(loggedinuserid,usertofollow);
-            return true;
+            bool result=UserDBContext.Follow(followdto);
+            return result;
+        }
+
+        public IList<UserBasicDTO> GetAllFollowing(Guid loggedinuserid)
+        {
+            IList<UserBasicDTO> gdto = UserDBContext.GetAllFollowing(loggedinuserid);
+            return gdto;
         }
 
         public IList<UserBasicDTO> GetAllFollowers(Guid loggedinuserid)
@@ -94,6 +101,7 @@ namespace GlitterTweeting.Business.Business_Objects
             IList<UserBasicDTO> gdto = UserDBContext.GetAllFollowers(loggedinuserid);
             return gdto;
         }
+
 
         public void Dispose()
             {

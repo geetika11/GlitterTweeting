@@ -79,7 +79,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="DTO\AnalyticsDTO.cs" />
+    <Compile Include="DTO\RelationShip\FollowDTO.cs" />
     <Compile Include="DTO\Tweet\GetAllTweetsDTO.cs" />
+    <Compile Include="DTO\Tweet\LikeTweetDTO.cs" />
     <Compile Include="DTO\Tweet\NewTweetDTO.cs" />
     <Compile Include="DTO\User\UserAuthDTO.cs" />
     <Compile Include="DTO\User\UserBasicDTO.cs" />
