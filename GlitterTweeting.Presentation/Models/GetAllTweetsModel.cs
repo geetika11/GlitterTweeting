@@ -10,5 +10,6 @@ namespace GlitterTweeting.Presentation.Models
         public string Message { get; set; }
         public string  UserName { get; set; }
         public System.DateTime CreatedAt { get; set; }
+        public Guid TweetID { get; set; }
     }
 }

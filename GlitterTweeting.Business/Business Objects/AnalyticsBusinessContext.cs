@@ -20,7 +20,7 @@ namespace GlitterTweeting.Business.Business_Objects
         public AnalyticsDTO Analytic()
         {
             AnalyticsDTO bonus = new AnalyticsDTO();
-            //  bonus.MostTrending = MostTrending();
+             bonus.MostTrending = tbc.MostTrending();
             bonus.MostLiked = tbc.MostLiked();
            bonus.MostTweetsBy = ubc.MostTweetsBy();
             bonus.TotalTweetsToday = tbc.TotalTweetsToday();

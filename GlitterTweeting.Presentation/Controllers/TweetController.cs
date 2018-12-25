@@ -62,24 +62,27 @@ namespace GlitterTweeting.Presentation.Controllers
 
             return gd;
         }
-
+        [AllowAnonymous]
         [HttpDelete]
      //   [Route("api/user/{UserId}/{tweetid}")]
-        [Route("api/user/deletetweet")]
-        public bool Delete([FromBody]NewTweetModel ng)
+        [Route("api/user/deletetweet/{UserID}/{TweetID}")]
+        public bool Delet(string UserID, string TweetID)
         {
             //fetch tweetid from url
-            Guid uid = Guid.Parse(ng.UserID);
-            Guid tid = Guid.Parse("f08c2f05-80c6-4def-a681-66c36adb86bc");
+            Guid uid = Guid.Parse(UserID);
+            Guid tid = Guid.Parse(TweetID);
 
             return tweetBusinessContext.DeleteTweet(uid,tid);
         }
         [HttpPut]
         [Route("api/user/updatetweet")]
-        public bool Put ([FromBody] NewTweetDTO updatedTweet)
+        public bool Put ([FromBody] NewTweetModel model)
         {
-            Guid tid = Guid.Parse("34052bc5-ebd5-4a07-8eb4-6824c38cd24b");
-            return tweetBusinessContext.UpdateTweet(updatedTweet,tid);
+            NewTweetDTO dto = new NewTweetDTO();
+            dto.UserID = Guid.Parse(model.UserID);
+            dto.TweetID = model.TweetID;
+            dto.Message = model.Message;
+            return tweetBusinessContext.UpdateTweet(dto);
 
         }
 

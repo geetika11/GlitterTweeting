@@ -62,6 +62,7 @@ namespace GlitterTweeting.Data.DB_Context
                 getAllTweets.Message = item.Message;
                 getAllTweets.CreatedAt = item.CreatedAt;
                 getAllTweets.UserName = author;
+                getAllTweets.TweetID = item.ID;
                 tweetList.Add(getAllTweets);
             }
             IEnumerable< Follow> followers = DBContext.Follow.Where(de => de.Follower_UserID == id);
@@ -78,6 +79,7 @@ namespace GlitterTweeting.Data.DB_Context
                         getAllTweets.Message = iter1.Message;
                         getAllTweets.CreatedAt = iter1.CreatedAt;
                         getAllTweets.UserName = us.FirstName + us.LastName;
+                        getAllTweets.TweetID = iter1.ID;
                         tweetList.Add(getAllTweets);
                     }
                 }
@@ -107,21 +109,21 @@ namespace GlitterTweeting.Data.DB_Context
             User user = DBContext.User.Where(dr => dr.ID == uid).FirstOrDefault();
             if (user.ID == tweet.UserID)
             {
-                DBContext.Tweet.Remove(tweet);
+                // DBContext.Tweet.DeleteObject(tweet);
+                DBContext.Entry(tweet).State = EntityState.Deleted;
                 DBContext.SaveChanges();
                 return true;
             }
             else { return false; }
         }
 
-        public void UpdateTweet(NewTweetDTO updatedTweet, Guid tid)
+        public void UpdateTweet(NewTweetDTO updatedTweet)
         {
-            Tweet tweet = DBContext.Tweet.Where(ds => ds.ID == tid).FirstOrDefault();
+            Tweet tweet = DBContext.Tweet.Where(ds => ds.ID == updatedTweet.TweetID).FirstOrDefault();
             tweet.Message = updatedTweet.Message;
             tweet.CreatedAt = System.DateTime.Now;
             DBContext.SaveChanges();
-            // Tweet newTweet = tweetMapper.Map<NewTweetDTO, Tweet>(tweetInput);
-
+           
         }
         public bool LikeTweet(LikeTweetDTO liketweetdto)
         {
@@ -152,14 +154,31 @@ namespace GlitterTweeting.Data.DB_Context
         }
 
 
+        public string MostTrending()
+        {
+            //IEnumerable<Tag> tagbyName = DBContext.Tag.GroupBy(s=>s.TagName).OrderByDescending(s=>s.Count()).First();
+            // IEnumerable<Tag> tagbySearchCount = DBContext.Tag.GroupBy(re => re.SearchCount).OrderByDescending(re => re.Count()).First();
+
+            // if (tagbyName.Count() > tagbySearchCount.Count())
+            // {
+            //     string tagname = tagbyName.ElementAt(0).TagName;
+            //     return tagname;
+            // }
+            // else
+            // {
+            //     string tagname = tagbySearchCount.ElementAt(0).TagName;
+            //     return tagname;
+            // }
+
+
+            IEnumerable<Tag> tagbyName = DBContext.Tag.OrderByDescending(re => re.SearchCount).ThenByDescending(re => re.TagName);
+            return tagbyName.ElementAt(0).TagName;
+        }
         public string MostLiked()
         {
             
             Guid maxid = DBContext.LikeTweet.GroupBy(x => x.TweetID).OrderByDescending(x => x.Count()).First().Key;
             Tweet t = DBContext.Tweet.Where(ds => ds.ID == maxid).FirstOrDefault();
-          
-           
-
             return t.Message;
         }
 
