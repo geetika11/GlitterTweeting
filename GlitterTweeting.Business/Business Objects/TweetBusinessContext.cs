@@ -13,6 +13,7 @@ namespace GlitterTweeting.Business.Business_Objects
     public class TweetBusinessContext
     {
         private TweetDBContext tweetDBContext;
+        private TagBusinessContext tagBusinnessContext;
        
 
         /// <summary>
@@ -21,11 +22,18 @@ namespace GlitterTweeting.Business.Business_Objects
         public TweetBusinessContext()
         {
             tweetDBContext = new TweetDBContext();
+            tagBusinnessContext = new TagBusinessContext();
 
         }
         public async Task<NewTweetDTO> CreateNewTweet(NewTweetDTO tweetInput)
         {
+           
             NewTweetDTO newtweetdto = await tweetDBContext.CreateNewTweet(tweetInput);
+            if (newtweetdto!=null)
+            {
+
+                bool result = tagBusinnessContext.CreateNewTags(newtweetdto);
+            }
             return newtweetdto;
         }
         public IList<GetAllTweetsDTO> GetAllTweets(Guid id)

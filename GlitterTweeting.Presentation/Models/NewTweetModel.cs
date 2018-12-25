@@ -7,9 +7,9 @@ namespace GlitterTweeting.Presentation.Models
 {
     public class NewTweetModel
     {
-      
-        public Guid UserID { get; set; }
+       public string UserID { get; set; }
         public string Message { get; set; }
+        public Guid TweetID { get; set; }
 
     }
 }

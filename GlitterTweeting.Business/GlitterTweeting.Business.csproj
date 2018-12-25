@@ -86,6 +86,7 @@
   <ItemGroup>
     <Compile Include="Business Objects\AnalyticsBusinessContext.cs" />
     <Compile Include="Business Objects\SearchBusinessContext.cs" />
+    <Compile Include="Business Objects\TagBusinessContext.cs" />
     <Compile Include="Business Objects\TweetBusinessContext.cs" />
     <Compile Include="Business Objects\UserBusinessContext.cs" />
     <Compile Include="Exceptions\AlreadyExistsException.cs" />

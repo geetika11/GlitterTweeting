@@ -81,6 +81,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="DTO\AnalyticsDTO.cs" />
     <Compile Include="DTO\RelationShip\FollowDTO.cs" />
+    <Compile Include="DTO\Search\SearchDTO.cs" />
     <Compile Include="DTO\Tweet\GetAllTweetsDTO.cs" />
     <Compile Include="DTO\Tweet\LikeTweetDTO.cs" />
     <Compile Include="DTO\Tweet\NewTweetDTO.cs" />

@@ -1,4 +1,5 @@
 ﻿using GlitterTweeting.Data.DB_Context;
+using GlitterTweeting.Shared.DTO.Search;
 using GlitterTweeting.Shared.DTO.User;
 using System;
 using System.Collections.Generic;
@@ -15,10 +16,10 @@ namespace GlitterTweeting.Business.Business_Objects
         {
             searchDBContext = new SearchDBContext();
         }
-        public IList<UserBasicDTO> SearchAllUsers(UserBasicDTO username)
+        public IList<SearchDTO> SearchAllUsers(string searchString)
         {
-            IList<UserBasicDTO> getAllUsers = searchDBContext.GetAllUsers(username);
-            return getAllUsers;
+            IList<SearchDTO> getAllResults = searchDBContext.GetAllUsers(searchString);
+            return getAllResults;
         }
 
     }

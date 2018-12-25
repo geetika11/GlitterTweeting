@@ -33,7 +33,7 @@ namespace GlitterTweeting.Data.DB_Context
 
         public async Task<NewTweetDTO> CreateNewTweet(NewTweetDTO tweetInput)
         {
-            // Tweet newTweet = tweetMapper.Map<NewTweetDTO, Tweet>(tweetInput);
+            
             Tweet newTweet = new Tweet();
             newTweet.ID = System.Guid.NewGuid();
             newTweet.Message = tweetInput.Message;
@@ -41,7 +41,8 @@ namespace GlitterTweeting.Data.DB_Context
             newTweet.CreatedAt = System.DateTime.Now;
             DBContext.Tweet.Add(newTweet);
             await DBContext.SaveChangesAsync();
-           // NewTweetDTO newTweets = TweetMapper.Map<Tweet, NewTweetDTO>(newTweet);
+            tweetInput.TweetID = newTweet.ID;
+          
             return tweetInput;  
         }
 
@@ -86,7 +87,20 @@ namespace GlitterTweeting.Data.DB_Context
             return tweetList;
         }
 
-
+        public bool updateSearchCount(Tag item)
+        {
+            Tag updateTag = DBContext.Tag.Where(dr => dr.ID == item.ID).FirstOrDefault();
+            if (updateTag.SearchCount == null)
+            {
+                updateTag.SearchCount = 1;
+            }
+            else
+            {
+                updateTag.SearchCount = updateTag.SearchCount + 1;
+            }
+            DBContext.SaveChanges();
+            return true;
+        }
         public bool DeleteTweet(Guid uid, Guid tid)
         {
             Tweet tweet = DBContext.Tweet.Where(ds => ds.ID == tid).FirstOrDefault();
@@ -138,16 +152,15 @@ namespace GlitterTweeting.Data.DB_Context
         }
 
 
-        public GetAllTweetsDTO MostLiked()
+        public string MostLiked()
         {
             
             Guid maxid = DBContext.LikeTweet.GroupBy(x => x.TweetID).OrderByDescending(x => x.Count()).First().Key;
             Tweet t = DBContext.Tweet.Where(ds => ds.ID == maxid).FirstOrDefault();
-            GetAllTweetsDTO gdto = new GetAllTweetsDTO();
-            gdto.CreatedAt = t.CreatedAt;
-            gdto.Message = t.Message;
+          
+           
 
-            return gdto;
+            return t.Message;
         }
 
         public int TotalTweetsToday()

@@ -4,17 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GlitterTweeting.Shared.DTO.User
+namespace GlitterTweeting.Shared.DTO.Search
 {
-    public class UserBasicDTO
+  public class SearchDTO
     {
+        public string SearchString { get; set; }
+        public string Message { get; set; }
+        public string UserName { get; set; }
+        public System.DateTime CreatedAt { get; set; }
         public string Email { get; set; }
         public string Image { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string UserName { get; set; }
-        public int Count { get; set; }
-        public Guid ID { get; set; }
-
+        public Guid TweetID { get; set; }
     }
 }

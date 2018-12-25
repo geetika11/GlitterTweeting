@@ -12,9 +12,11 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace GlitterTweeting.Presentation.Controllers
 {
+    [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
     public class TweetController : ApiController
     {
         private TweetBusinessContext tweetBusinessContext;
@@ -37,8 +39,8 @@ namespace GlitterTweeting.Presentation.Controllers
             try
             {
                 NewTweetDTO newTweetDTO =new  NewTweetDTO();
-               // Guid abc = Guid.Parse("776a7b91-dac4-4546-957c-2298dd72812c");
-                newTweetDTO.UserID = newTweetModel.UserID;
+              
+                newTweetDTO.UserID =Guid.Parse( newTweetModel.UserID);
                 newTweetDTO.Message = newTweetModel.Message;
                 newTweetDTO = await tweetBusinessContext.CreateNewTweet(newTweetDTO);
                 return Ok(new { Tweet = newTweetDTO });
@@ -51,13 +53,12 @@ namespace GlitterTweeting.Presentation.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        [Route("api/user/playground")]
-        public IList<GetAllTweetsDTO> Get()
+        [Route("api/user/playground/{userId}")]
+        public IList<GetAllTweetsDTO> Get(string userId)
         {
-             //string ass  = HttpContext.Current.Session["UserID"].ToString();            
-            //Guid abc = Guid.Parse(ass);
-            Guid abc = Guid.Parse("776a7b91-dac4-4546-957c-2298dd72812c");
-            IList<GetAllTweetsDTO>gd= tweetBusinessContext.GetAllTweets(abc);
+             
+            Guid userid = Guid.Parse(userId);
+            IList<GetAllTweetsDTO>gd= tweetBusinessContext.GetAllTweets(userid);
 
             return gd;
         }
@@ -68,7 +69,7 @@ namespace GlitterTweeting.Presentation.Controllers
         public bool Delete([FromBody]NewTweetModel ng)
         {
             //fetch tweetid from url
-            Guid uid = ng.UserID;
+            Guid uid = Guid.Parse(ng.UserID);
             Guid tid = Guid.Parse("f08c2f05-80c6-4def-a681-66c36adb86bc");
 
             return tweetBusinessContext.DeleteTweet(uid,tid);
