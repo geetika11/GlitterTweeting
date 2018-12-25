@@ -7,7 +7,8 @@ namespace GlitterTweeting.Presentation.Models
 {
     public class LikeTweetModel
     {
-        public string TweetID { get; set; }
         public string LoggedInUserID { get; set; }
+        public string TweetID { get; set; }
+       
     }
 }

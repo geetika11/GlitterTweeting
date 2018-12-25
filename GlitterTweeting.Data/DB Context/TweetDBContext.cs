@@ -13,9 +13,11 @@ namespace GlitterTweeting.Data.DB_Context
     public class TweetDBContext:IDisposable
     {
         glitterEntities DBContext;
+        TagDBContext tagdb;
         private IMapper TweetMapper, tweetMapper;
         public TweetDBContext()
         {
+            tagdb = new TagDBContext();
             DBContext = new glitterEntities();
             var config = new MapperConfiguration(cfg =>
             {
@@ -109,6 +111,7 @@ namespace GlitterTweeting.Data.DB_Context
             User user = DBContext.User.Where(dr => dr.ID == uid).FirstOrDefault();
             if (user.ID == tweet.UserID)
             {
+                tagdb.DeleteTag(tweet);
                 // DBContext.Tweet.DeleteObject(tweet);
                 DBContext.Entry(tweet).State = EntityState.Deleted;
                 DBContext.SaveChanges();

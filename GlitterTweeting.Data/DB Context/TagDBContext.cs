@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,7 +29,18 @@ namespace GlitterTweeting.Data.DB_Context
             return true;
         }
 
-       
+       public bool DeleteTag(Tweet tweet)
+        {
+            using (glitterEntities DBContext = new glitterEntities())
+            {
+                IEnumerable<Tag> taglist = DBContext.Tag.Where(dr => dr.TweetID == tweet.ID);
+                foreach (var item in taglist)
+                {
+                    DBContext.Entry(item).State = EntityState.Deleted;
+                }
+                return true;
+            }
+        }
 
         public void Dispose()
         {
