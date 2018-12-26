@@ -84,6 +84,8 @@
     <Compile Include="DB Context\TagDBContext.cs" />
     <Compile Include="DB Context\TweetDBContext.cs" />
     <Compile Include="DB Context\UserDBContext.cs" />
+    <Compile Include="Exceptions\TagNotExist.cs" />
+    <Compile Include="Exceptions\UserNotExist.cs" />
     <Compile Include="Follow.cs">
       <DependentUpon>GlitterTweetingDBModel.tt</DependentUpon>
     </Compile>

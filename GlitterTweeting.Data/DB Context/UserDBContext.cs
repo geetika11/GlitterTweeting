@@ -246,10 +246,10 @@ namespace GlitterTweeting.Data.DB_Context
     /// <summary>
     /// Destructor to class
     /// </summary>
-    ~UserDBContext()
-    {
-        Dispose(false);
-    }
+        ~UserDBContext()
+        {
+            Dispose(false);
+        }
 
 
 

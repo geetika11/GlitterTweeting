@@ -22,8 +22,7 @@ namespace GlitterTweeting.Presentation.Controllers
         {
             searchBusinessContext = new SearchBusinessContext();     
         }
-        // GET: api/Search
-       
+        
         [HttpPost]
         [Route("api/user/searchUser")]
         public  IList<SearchDTO> SearchUser ([FromBody] SearchModel SearchString)
