@@ -39,60 +39,52 @@ namespace GlitterTweeting.Data.DB_Context
 
 
 
-        //isko join se krna h
-        public IList<GetAllTweetsDTO> GetAllTweets(Guid id)
+       
+      public IList<GetAllTweetsDTO> GetAllTweets(Guid id)
         {
             IList<GetAllTweetsDTO> tweetList = new List<GetAllTweetsDTO>();
-            GetAllTweetsDTO getAllTweets;
-            using (glitterEntities DBContext = new glitterEntities()) { 
-                User user = DBContext.User.Where(ds => ds.ID == id).FirstOrDefault();
-            var author = user.FirstName + user.LastName;
-            IEnumerable<Tweet> tweet = DBContext.Tweet.Where(de => de.UserID == user.ID).OrderByDescending(cd=>cd.CreatedAt);
-            foreach(var item in tweet)
+            IList<GetAllTweetsDTO> tweetList1 = new List<GetAllTweetsDTO>();
+            tweetList = (from u in DBContext.Follow.Where(ds => ds.Follower_UserID == id)
+                         join uf in DBContext.Follow on u.Followed_UserID equals uf.Followed_UserID
+                         join t in DBContext.Tweet on uf.Followed_UserID equals t.UserID
+                         join user in DBContext.User on t.UserID equals user.ID
+                         orderby t.CreatedAt descending
+                         select new GetAllTweetsDTO() {
+                             Message = t.Message,
+                             CreatedAt = t.CreatedAt,
+                             UserName = user.FirstName + user.LastName,
+                             IsAuthor = false ,
+                             TweetID=t.ID
+                         }).ToList();
+            foreach(var iter in tweetList)
             {
-                getAllTweets = new GetAllTweetsDTO();
-                getAllTweets.Message = item.Message;
-                getAllTweets.CreatedAt = item.CreatedAt;
-                getAllTweets.UserName = author;
-                getAllTweets.TweetID = item.ID;
-                getAllTweets.IsAuthor = true;
-                getAllTweets.isLiked = false;
-                tweetList.Add(getAllTweets);
-            }
-            IEnumerable< Follow> followers = DBContext.Follow.Where(de => de.Follower_UserID == id);
-
-                foreach (var iter in followers)
+                LikeTweet t = DBContext.LikeTweet.Where(x => (x.UserID == id) && (x.TweetID == iter.TweetID)).FirstOrDefault();
+                if (t != null)
                 {
-                    IEnumerable<Follow> followed = DBContext.Follow.Where(de => de.Followed_UserID == iter.Followed_UserID);
-                    foreach (var iter2 in followed)
-                    {
-                        IEnumerable<Tweet> msg = DBContext.Tweet.Where(df => df.UserID == iter2.Followed_UserID).OrderByDescending(cd => cd.CreatedAt);
-                        foreach (var iter1 in msg)
-                        {
-                            User us = DBContext.User.Where(re => re.ID == iter1.UserID).FirstOrDefault();
-                            getAllTweets = new GetAllTweetsDTO();
-                            getAllTweets.Message = iter1.Message;
-                            getAllTweets.CreatedAt = iter1.CreatedAt;
-                            getAllTweets.UserName = us.FirstName + us.LastName;
-                            getAllTweets.TweetID = iter1.ID;
-                            getAllTweets.IsAuthor = false;
-                            LikeTweet t = DBContext.LikeTweet.Where(x => (x.UserID == id) && (x.TweetID == getAllTweets.TweetID)).FirstOrDefault();
-                            if (t != null)
-                            {
-                                getAllTweets.isLiked = true;
-                            }
-                            else
-                            {
-                                getAllTweets.isLiked = false;
-                            }
-                            tweetList.Add(getAllTweets);
-                        }
-                    }
+                    iter.isLiked = true;
+                }
+                else
+                {
+                    iter.isLiked = false;
                 }
             }
+            tweetList1 = (from u in DBContext.User.Where(tr=>tr.ID==id)
+                         join t in DBContext.Tweet on u.ID equals t.UserID
+                         orderby t.CreatedAt descending
+                         select new GetAllTweetsDTO()
+                         {
+                             Message = t.Message,
+                             CreatedAt = t.CreatedAt,
+                             UserName = u.FirstName + u.LastName,
+                             IsAuthor = true,
+                             isLiked=false,
+                             TweetID = t.ID
+                         }).ToList();
+            tweetList = tweetList.Concat(tweetList1).ToList();           
             return tweetList;
         }
 
+        
         public bool updateSearchCount(Tag item)
         {
             using (glitterEntities DBContext = new glitterEntities())
@@ -161,7 +153,7 @@ namespace GlitterTweeting.Data.DB_Context
                   }
         public bool DisLikeTweet(Guid userid, Guid tweetid)
         {            
-                LikeTweet tweet = DBContext.LikeTweet.Where(ds => ds.UserID == userid && ds.TweetID==tweetid).FirstOrDefault();
+            LikeTweet tweet = DBContext.LikeTweet.Where(ds => ds.UserID == userid && ds.TweetID==tweetid).FirstOrDefault();
             if (tweet != null)
             {
                 DBContext.LikeTweet.Remove(tweet);
