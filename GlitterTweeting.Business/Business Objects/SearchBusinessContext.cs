@@ -1,11 +1,6 @@
 ﻿using GlitterTweeting.Data.DB_Context;
 using GlitterTweeting.Shared.DTO.Search;
-using GlitterTweeting.Shared.DTO.User;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GlitterTweeting.Business.Business_Objects
 {

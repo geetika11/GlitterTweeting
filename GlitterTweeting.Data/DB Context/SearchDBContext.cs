@@ -1,28 +1,18 @@
-﻿using AutoMapper;
-using GlitterTweeting.Shared.DTO.Search;
-using GlitterTweeting.Shared.DTO.User;
-using System;
+﻿using GlitterTweeting.Shared.DTO.Search;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GlitterTweeting.Data.DB_Context
 {
-   public class SearchDBContext
+    public class SearchDBContext
     {
         glitterEntities DBContext;
         TweetDBContext tbc;
-        IMapper userMapper;
+       
         public SearchDBContext()
         {
             tbc = new TweetDBContext();
-            DBContext = new glitterEntities();
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<User, UserBasicDTO>();
-            }); 
-            userMapper = new Mapper(config);
+            DBContext = new glitterEntities();            
         }
         
         public IList<SearchDTO> GetAllUsers(string searchString)
@@ -39,7 +29,7 @@ namespace GlitterTweeting.Data.DB_Context
                     getAllUsers.LastName = item.LastName;
                     getAllUsers.FirstName = item.FirstName;
                     getAllUsers.Email = item.Email;
-                getAllUsers.UserId = item.ID;
+                    getAllUsers.UserId = item.ID;
                     resultList.Add(getAllUsers);
                 }
                

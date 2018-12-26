@@ -14,23 +14,11 @@ namespace GlitterTweeting.Data.DB_Context
     {
         glitterEntities DBContext;
         TagDBContext tagdb;
-        private IMapper TweetMapper, tweetMapper;
+        
         public TweetDBContext()
         {
             tagdb = new TagDBContext();
             DBContext = new glitterEntities();
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Tweet, NewTweetDTO>();
-                   
-            });
-            var configuration = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<NewTweetDTO, Tweet>();
-
-            });
-            TweetMapper = new Mapper(config);
-            tweetMapper = new Mapper(configuration);
         }
 
         public async Task<NewTweetDTO> CreateNewTweet(NewTweetDTO tweetInput)
@@ -43,8 +31,7 @@ namespace GlitterTweeting.Data.DB_Context
             newTweet.CreatedAt = System.DateTime.Now;
             DBContext.Tweet.Add(newTweet);
             await DBContext.SaveChangesAsync();
-            tweetInput.TweetID = newTweet.ID;
-          
+            tweetInput.TweetID = newTweet.ID;          
             return tweetInput;  
         }
 
@@ -124,7 +111,7 @@ namespace GlitterTweeting.Data.DB_Context
             if (user.ID == tweet.UserID)
             {
                 tagdb.DeleteTag(tweet);
-                // DBContext.Tweet.DeleteObject(tweet);
+                
                 DBContext.Entry(tweet).State = EntityState.Deleted;
                 DBContext.SaveChanges();
                 return true;
@@ -171,27 +158,11 @@ namespace GlitterTweeting.Data.DB_Context
 
         public string MostTrending()
         {
-            //IEnumerable<Tag> tagbyName = DBContext.Tag.GroupBy(s=>s.TagName).OrderByDescending(s=>s.Count()).First();
-            // IEnumerable<Tag> tagbySearchCount = DBContext.Tag.GroupBy(re => re.SearchCount).OrderByDescending(re => re.Count()).First();
-
-            // if (tagbyName.Count() > tagbySearchCount.Count())
-            // {
-            //     string tagname = tagbyName.ElementAt(0).TagName;
-            //     return tagname;
-            // }
-            // else
-            // {
-            //     string tagname = tagbySearchCount.ElementAt(0).TagName;
-            //     return tagname;
-            // }
-
-
             IEnumerable<Tag> tagbyName = DBContext.Tag.OrderByDescending(re => re.SearchCount).ThenByDescending(re => re.TagName);
             return tagbyName.ElementAt(0).TagName;
         }
         public string MostLiked()
         {
-            
             Guid maxid = DBContext.LikeTweet.GroupBy(x => x.TweetID).OrderByDescending(x => x.Count()).First().Key;
             Tweet t = DBContext.Tweet.Where(ds => ds.ID == maxid).FirstOrDefault();
             return t.Message;
@@ -201,8 +172,6 @@ namespace GlitterTweeting.Data.DB_Context
         {
             DateTime sysDate = DateTime.Today;
             int count = DBContext.Tweet.Count(i => DbFunctions.TruncateTime(i.CreatedAt) == System.DateTime.Today);
-
-          // int count = DBContext.Tweet.Where(x => DbFuntions.TruncateTime(x.CreatedAt) == DateTime.Today).Count();
             return count;
         }
         public void Dispose()

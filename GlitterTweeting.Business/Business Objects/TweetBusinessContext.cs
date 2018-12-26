@@ -13,8 +13,7 @@ namespace GlitterTweeting.Business.Business_Objects
     public class TweetBusinessContext
     {
         private TweetDBContext tweetDBContext;
-        private TagBusinessContext tagBusinnessContext;
-       
+        private TagBusinessContext tagBusinnessContext;      
 
         /// <summary>
         /// Constructor, initializes DB context objects and automappers.
@@ -48,8 +47,7 @@ namespace GlitterTweeting.Business.Business_Objects
         public bool UpdateTweet(NewTweetDTO newTweetDTO)
         {
              tweetDBContext.UpdateTweet(newTweetDTO);
-            return true;
-      
+             return true;
         }
         public bool LikeTweet(LikeTweetDTO like)
         {

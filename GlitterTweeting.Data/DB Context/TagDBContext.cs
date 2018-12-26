@@ -19,11 +19,9 @@ namespace GlitterTweeting.Data.DB_Context
                     Tag newtag = new Tag();
                     newtag.ID = Guid.NewGuid();
                     newtag.TweetID = tweetid;
-                    newtag.TagName = s;
-                    //  newtag.Count = 1;
+                    newtag.TagName = s;                  
                     dbcontext.Tag.Add(newtag);
                     dbcontext.SaveChanges();
-
                 }
             }
             return true;
@@ -41,7 +39,6 @@ namespace GlitterTweeting.Data.DB_Context
                 return true;
             }
         }
-
         public void Dispose()
         {
             throw new NotImplementedException();

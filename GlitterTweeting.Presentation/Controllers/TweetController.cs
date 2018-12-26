@@ -20,27 +20,21 @@ namespace GlitterTweeting.Presentation.Controllers
     public class TweetController : ApiController
     {
         private TweetBusinessContext tweetBusinessContext;
-        IMapper TweetMapper;
+        
         public TweetController()
         {
-            tweetBusinessContext = new TweetBusinessContext();
-
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<NewTweetModel, NewTweetDTO>();
-            });
-            TweetMapper = new Mapper(config);
+            tweetBusinessContext = new TweetBusinessContext();           
         }
         // GET: api/Tweet
-        [AllowAnonymous]
+       
+
         [Route("api/user/newTweet")]
         public async Task<IHttpActionResult> Post([FromBody] NewTweetModel newTweetModel )
         {
             try
             {
-                NewTweetDTO newTweetDTO =new  NewTweetDTO();
-              
-                newTweetDTO.UserID =Guid.Parse( newTweetModel.UserID);
+                NewTweetDTO newTweetDTO =new  NewTweetDTO();              
+                newTweetDTO.UserID = Guid.Parse( newTweetModel.UserID);
                 newTweetDTO.Message = newTweetModel.Message;
                 newTweetDTO = await tweetBusinessContext.CreateNewTweet(newTweetDTO);
                 return Ok(new { Tweet = newTweetDTO });
@@ -51,7 +45,6 @@ namespace GlitterTweeting.Presentation.Controllers
             }
         }
 
-        [AllowAnonymous]
         [HttpGet]
         [Route("api/user/playground/{userId}")]
         public IList<GetAllTweetsDTO> Get(string userId)
@@ -59,21 +52,20 @@ namespace GlitterTweeting.Presentation.Controllers
              
             Guid userid = Guid.Parse(userId);
             IList<GetAllTweetsDTO>gd= tweetBusinessContext.GetAllTweets(userid);
-
             return gd;
         }
-        [AllowAnonymous]
+       
         [HttpDelete]
-     //   [Route("api/user/{UserId}/{tweetid}")]
         [Route("api/user/deletetweet/{UserID}/{TweetID}")]
-        public bool Delet(string UserID, string TweetID)
+        public bool Delete(string UserID, string TweetID)
         {
-            //fetch tweetid from url
+           
             Guid uid = Guid.Parse(UserID);
             Guid tid = Guid.Parse(TweetID);
-
             return tweetBusinessContext.DeleteTweet(uid,tid);
         }
+
+
         [HttpPut]
         [Route("api/user/updatetweet")]
         public bool Put ([FromBody] NewTweetModel model)
@@ -86,22 +78,22 @@ namespace GlitterTweeting.Presentation.Controllers
 
         }
 
-        [AllowAnonymous]
         [HttpPost]
         [Route("api/user/like")]
-        public bool Post(LikeTweetModel likeTweetModel) {
-
-           
+        public bool Post(LikeTweetModel likeTweetModel)
+        {
+                      
             LikeTweetDTO liketweetdto = new LikeTweetDTO();
             liketweetdto.LoggedInUserID = Guid.Parse(likeTweetModel.LoggedInUserID);
             liketweetdto.TweetID = Guid.Parse(likeTweetModel.TweetID);
             tweetBusinessContext.LikeTweet(liketweetdto);
             return true;
         }
-        [AllowAnonymous]
+
+       
         [HttpDelete]
         [Route("api/user/dislike/{UserID}/{TweetID}")]
-        public bool Delete(string UserID,string TweetID)
+        public bool DisLikeTweet(string UserID,string TweetID)
         {
             
             Guid userid = Guid.Parse(UserID);

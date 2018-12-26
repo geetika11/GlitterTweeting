@@ -85,12 +85,9 @@ namespace GlitterTweeting.Presentation.Controllers
         {
             try
             {
-                
-                if (!ModelState.IsValid)
+               if (!ModelState.IsValid)
                 {
-
                     return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.Forbidden, JsonConvert.SerializeObject(string.Join(" | ", ModelState.Values))));
-
                 }
                 UserRegisterDTO userPostDTO = UserMapper.Map<UserRegisterModel, UserRegisterDTO>(user);
                 UserCompleteDTO newUser = await UserBusinessContext.CreateNewUser(userPostDTO);
@@ -102,12 +99,11 @@ namespace GlitterTweeting.Presentation.Controllers
             }
         }
 
-        [AllowAnonymous]
+        
         [HttpPost]
         [Route("api/user/follow")]
         public bool Post(FollowModel followModel)
-        {
-                        
+        {                        
             FollowDTO followdto = new FollowDTO();
             followdto.UserID=Guid.Parse(followModel.UserID);
             followdto.UserToFollowID = Guid.Parse(followModel.UserToFollowID);         
@@ -116,7 +112,7 @@ namespace GlitterTweeting.Presentation.Controllers
         }
 
 
-        [AllowAnonymous]
+       
         [HttpPost]
         [Route("api/user/unfollow")]
         public bool Unfollow(FollowModel followModel)
@@ -129,7 +125,7 @@ namespace GlitterTweeting.Presentation.Controllers
         }
 
 
-        [AllowAnonymous]
+       
         [HttpGet]
         [Route("api/user/following/{userId}")]
         public IList<UserBasicDTO> Following(string userId)
@@ -137,19 +133,15 @@ namespace GlitterTweeting.Presentation.Controllers
            
             Guid loggedinuserid = Guid.Parse(userId);
             IList<UserBasicDTO> gd = UserBusinessContext.GetAllFollowing(loggedinuserid);
-
             return gd;
         }
-
-        [AllowAnonymous]
+       
         [HttpGet]
         [Route("api/user/followers/{userId}")]
         public IList<UserBasicDTO> Followers(string userId)
         {
-
             Guid loggedinuserid = Guid.Parse(userId);
             IList<UserBasicDTO> gd = UserBusinessContext.GetAllFollowers(loggedinuserid);
-
             return gd;
         }
 

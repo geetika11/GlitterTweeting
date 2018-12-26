@@ -10,10 +10,7 @@ namespace GlitterTweeting.Business.Business_Objects
 {
   public  class TagBusinessContext
     {
-        public TagBusinessContext()
-        {
-            
-        }
+       
         public bool CreateNewTags(NewTweetDTO newtweetdto)
         {
             string[] result = newtweetdto.Message.Split(' ');
@@ -31,8 +28,7 @@ namespace GlitterTweeting.Business.Business_Objects
             {
                 bool res=tagDBContext.AddTags(tagElements, newtweetdto.TweetID);
                 return true;
-
-                
+                               
             }
           
         }

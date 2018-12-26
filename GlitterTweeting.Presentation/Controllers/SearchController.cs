@@ -17,36 +17,27 @@ namespace GlitterTweeting.Presentation.Controllers
 {
     [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
     public class SearchController : ApiController
-    {
-       
-        private SearchBusinessContext searchBusinessContext;
-        IMapper mapper;
+    { private SearchBusinessContext searchBusinessContext;
         public SearchController()
         {
-            searchBusinessContext = new SearchBusinessContext();
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<AuthorModel, UserBasicDTO>();
-            });
-            mapper = new Mapper(config);
-
+            searchBusinessContext = new SearchBusinessContext();     
         }
         // GET: api/Search
-        [AllowAnonymous]
+       
         [HttpPost]
         [Route("api/user/searchUser")]
-        public  IList<SearchDTO> Post([FromBody] SearchModel SearchString)
+        public  IList<SearchDTO> SearchUser ([FromBody] SearchModel SearchString)
         {
             SearchDTO Dto = new SearchDTO();
             Dto.SearchString = SearchString.SearchString;
             IList<SearchDTO> AllResults = searchBusinessContext.SearchAllUsers(Dto.SearchString);
-
             return AllResults;
         }
-        [AllowAnonymous]
+
+        
         [HttpPost]
         [Route("api/user/searchHashTag")]
-        public IList<SearchDTO> Search([FromBody] SearchModel SearchString)
+        public IList<SearchDTO> SearchTag([FromBody] SearchModel SearchString)
         {
             SearchDTO Dto = new SearchDTO();
             Dto.SearchString = SearchString.SearchString;
