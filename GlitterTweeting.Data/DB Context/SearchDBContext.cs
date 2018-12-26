@@ -21,7 +21,7 @@ namespace GlitterTweeting.Data.DB_Context
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<User, UserBasicDTO>();
-            });
+            }); 
             userMapper = new Mapper(config);
         }
         
@@ -31,7 +31,7 @@ namespace GlitterTweeting.Data.DB_Context
             IList<Tag> tag = DBContext.Tag.Where(de => de.TagName.Contains(searchString)).ToList();
             IList<SearchDTO> resultList = new List<SearchDTO>();
             SearchDTO getAllUsers;
-            SearchDTO getAllTags;
+           
             foreach (var item in user)
                 {
                     getAllUsers = new SearchDTO();
@@ -42,22 +42,38 @@ namespace GlitterTweeting.Data.DB_Context
                 getAllUsers.UserId = item.ID;
                     resultList.Add(getAllUsers);
                 }
-                foreach (var item in tag)
-                {
-                    getAllTags = new SearchDTO();
-                    tbc.updateSearchCount(item);
-                    IList<Tweet> tweet = DBContext.Tweet.Where(dr => dr.ID == item.TweetID).ToList();
-                    foreach (var item1 in tweet)
-                    {
-                        User user1 = DBContext.User.Where(dw => dw.ID == item1.UserID).FirstOrDefault();
-                        getAllTags.Message = item1.Message;
-                        getAllTags.CreatedAt = item1.CreatedAt;
-                        getAllTags.UserName = user1.FirstName + user1.LastName;
-                    }
-                    resultList.Add(getAllTags);
-                }
+               
                 return resultList;
 
         }
+
+        public IList<SearchDTO> GetAllHashTag(string searchString)
+        {
+           IList<Tag> tag = DBContext.Tag.Where(de => de.TagName.Contains(searchString)).ToList();
+            IList<SearchDTO> resultList = new List<SearchDTO>();
+          
+            SearchDTO getAllTags;
+         
+            foreach (var item in tag)
+            {
+                getAllTags = new SearchDTO();
+                tbc.updateSearchCount(item);
+                IList<Tweet> tweet = DBContext.Tweet.Where(dr => dr.ID == item.TweetID).ToList();
+                foreach (var item1 in tweet)
+                {
+                    User user1 = DBContext.User.Where(dw => dw.ID == item1.UserID).FirstOrDefault();
+                    getAllTags.Message = item1.Message;
+                    getAllTags.CreatedAt = item1.CreatedAt;
+                    getAllTags.UserName = user1.FirstName + user1.LastName;
+                }
+                resultList.Add(getAllTags);
+            }
+            return resultList;
+
+        }
+
+
+
+
     }
 }

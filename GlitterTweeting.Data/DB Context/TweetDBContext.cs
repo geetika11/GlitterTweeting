@@ -65,6 +65,8 @@ namespace GlitterTweeting.Data.DB_Context
                 getAllTweets.CreatedAt = item.CreatedAt;
                 getAllTweets.UserName = author;
                 getAllTweets.TweetID = item.ID;
+                getAllTweets.IsAuthor = true;
+                getAllTweets.isLiked = false;
                 tweetList.Add(getAllTweets);
             }
             IEnumerable< Follow> followers = DBContext.Follow.Where(de => de.Follower_UserID == id);
@@ -82,6 +84,16 @@ namespace GlitterTweeting.Data.DB_Context
                         getAllTweets.CreatedAt = iter1.CreatedAt;
                         getAllTweets.UserName = us.FirstName + us.LastName;
                         getAllTweets.TweetID = iter1.ID;
+                        getAllTweets.IsAuthor = false;
+                        LikeTweet t = DBContext.LikeTweet.Where(x => (x.UserID == id) && (x.TweetID == getAllTweets.TweetID)).FirstOrDefault();
+                        if (t != null)
+                        {
+                            getAllTweets.isLiked = true;
+                        }
+                        else
+                        {
+                            getAllTweets.isLiked = false;
+                        }
                         tweetList.Add(getAllTweets);
                     }
                 }
