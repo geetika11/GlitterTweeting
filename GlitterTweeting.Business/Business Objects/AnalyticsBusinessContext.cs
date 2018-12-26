@@ -5,16 +5,18 @@ namespace GlitterTweeting.Business.Business_Objects
 {
     public class AnalyticsBusinessContext
     {
-        
-        TweetDBContext tbc = new TweetDBContext();
-        UserDBContext ubc = new UserDBContext();
+       
+        UserDBContext UserDBContextObject = new UserDBContext();
+        TweetDBContext tweetDBContextObject = new TweetDBContext();
         public AnalyticsDTO Analytic()
         {
             AnalyticsDTO bonus = new AnalyticsDTO();
-            bonus.MostTrending = tbc.MostTrending();
-            bonus.MostLiked = tbc.MostLiked();
-            bonus.MostTweetsBy = ubc.MostTweetsBy();
-            bonus.TotalTweetsToday = tbc.TotalTweetsToday();
+            bonus.MostTweetsBy = UserDBContextObject.MostTweetsBy();
+           
+                bonus.MostTrending = tweetDBContextObject.MostTrending();
+                bonus.MostLiked = tweetDBContextObject.MostLiked();
+                bonus.TotalTweetsToday = tweetDBContextObject.TotalTweetsToday();
+         
             return bonus;
         }
     }
