@@ -7,7 +7,10 @@ namespace GlitterTweeting.Presentation.Models
 {
     public class SearchModel
     {
-        public string SearchString { get; set; }
-        
+        public string SearchString { get; set; }  
+        public string UserID { get; set; }
+
+
+
     }
 }

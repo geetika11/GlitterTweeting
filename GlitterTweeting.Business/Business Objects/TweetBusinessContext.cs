@@ -13,13 +13,15 @@ namespace GlitterTweeting.Business.Business_Objects
     public class TweetBusinessContext
     {
         private TweetDBContext tweetDBContext;
-        private TagBusinessContext tagBusinnessContext;      
+        private TagBusinessContext tagBusinnessContext;
+        private TagDBContext tagDBContext;
 
         /// <summary>
         /// Constructor, initializes DB context objects and automappers.
         /// </summary>
         public TweetBusinessContext()
         {
+            tagDBContext = new TagDBContext();
             tweetDBContext = new TweetDBContext();
             tagBusinnessContext = new TagBusinessContext();
 
@@ -44,10 +46,14 @@ namespace GlitterTweeting.Business.Business_Objects
         {
             return tweetDBContext.DeleteTweet(uid, tid);
         }
+
+
         public bool UpdateTweet(NewTweetDTO newTweetDTO)
         {
-             tweetDBContext.UpdateTweet(newTweetDTO);
-             return true;
+           Guid result= tweetDBContext.UpdateTweet(newTweetDTO);
+            tagDBContext.DeleteTag(result);
+            tagBusinnessContext.CreateNewTags(newTweetDTO);
+            return true;
         }
         public bool LikeTweet(LikeTweetDTO like)
         {

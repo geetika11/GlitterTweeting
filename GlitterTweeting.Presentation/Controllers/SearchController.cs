@@ -28,8 +28,10 @@ namespace GlitterTweeting.Presentation.Controllers
         public  IList<SearchDTO> SearchUser ([FromBody] SearchModel SearchString)
         {
             SearchDTO Dto = new SearchDTO();
+            Dto.UserId = Guid.Parse(SearchString.UserID);
             Dto.SearchString = SearchString.SearchString;
-            IList<SearchDTO> AllResults = searchBusinessContext.SearchAllUsers(Dto.SearchString);
+            IList<SearchDTO> AllResults = searchBusinessContext.SearchAllUsers(Dto.SearchString,Dto.UserId);
+
             return AllResults;
         }
 
@@ -39,8 +41,9 @@ namespace GlitterTweeting.Presentation.Controllers
         public IList<SearchDTO> SearchTag([FromBody] SearchModel SearchString)
         {
             SearchDTO Dto = new SearchDTO();
+            Dto.UserId = Guid.Parse(SearchString.UserID);
             Dto.SearchString = SearchString.SearchString;
-            IList<SearchDTO> AllResults = searchBusinessContext.SearchAllHashTag(Dto.SearchString);
+            IList<SearchDTO> AllResults = searchBusinessContext.SearchAllHashTag(Dto.SearchString,Dto.UserId);
             return AllResults;
         }
     }

@@ -9,35 +9,33 @@ namespace GlitterTweeting.Data.DB_Context
 {
     public class TagDBContext : IDisposable
     {
-
+        glitterEntities dbcontext = new glitterEntities();
         public bool AddTags(List<string> tags, Guid tweetid)
         {
-            using (glitterEntities dbcontext = new glitterEntities())
-            {
-                foreach (string s in tags)
-                {
-                    Tag newtag = new Tag();
-                    newtag.ID = Guid.NewGuid();
-                    newtag.TweetID = tweetid;
-                    newtag.TagName = s;                  
-                    dbcontext.Tag.Add(newtag);
-                    dbcontext.SaveChanges();
-                }
-            }
-            return true;
-            
-        }
 
-       public bool DeleteTag(Tweet tweet)
-        {
-            using (glitterEntities DBContext = new glitterEntities())
+            foreach (string s in tags)
             {
-                IList<Tag> taglist = DBContext.Tag.Where(dr => dr.TweetID == tweet.ID).ToList();
+                Tag newtag = new Tag();
+                newtag.ID = Guid.NewGuid();
+                newtag.TweetID = tweetid;
+                newtag.TagName = s;
+                dbcontext.Tag.Add(newtag);
+                dbcontext.SaveChanges();
+            }
+
+            return true;
+        }
+        
+        public bool DeleteTag(Guid tweetId)
+        {
+           
+                IList<Tag> taglist = dbcontext.Tag.Where(dr => dr.TweetID == tweetId).ToList();
                 if (taglist.Count > 0)
                 {
                     foreach (var item in taglist)
                     {
-                        DBContext.Entry(item).State = EntityState.Deleted;
+                        dbcontext.Entry(item).State = EntityState.Deleted;
+                    dbcontext.SaveChanges();
                     }
 
                     return true;
@@ -47,11 +45,35 @@ namespace GlitterTweeting.Data.DB_Context
                     return false;
                 }
                 
-            }
+            
         }
         public void Dispose()
         {
-            throw new NotImplementedException();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// virtual dispose to class
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (dbcontext != null)
+                { 
+                    dbcontext.Dispose();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Destructor to class
+        /// </summary>
+        ~TagDBContext()
+        {
+            Dispose(false);
         }
     }
 }

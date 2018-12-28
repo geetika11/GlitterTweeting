@@ -9,30 +9,41 @@ namespace GlitterTweeting.Data.DB_Context
     {
         glitterEntities DBContext = new glitterEntities();
         TweetDBContext tweetDBContext = new TweetDBContext();
-        public IList<SearchDTO> GetAllUsers(string searchString)
+        public IList<SearchDTO> GetAllUsers(string searchString,Guid Userid)
         {
-            if (searchString != null)
+            if (searchString != null && searchString!="")
             {
                 IList<SearchDTO> resultList = new List<SearchDTO>();
                 SearchDTO getAllUsers;
-                  IList<User> user = DBContext.User.Where(ds => ds.FirstName.Contains(searchString)||ds.Email.Contains(searchString) || ds.LastName.Contains(searchString)).ToList();
+                  IList<User> user = DBContext.User.Where(ds => (ds.FirstName.Contains(searchString)||ds.Email.Contains(searchString) || ds.LastName.Contains(searchString)) && (ds.ID != Userid)).ToList();
                     if (user.Count > 0)
                     {
-                        foreach (var item in user)
+                    foreach (var item in user)
+                    {
+                        getAllUsers = new SearchDTO();
+                        getAllUsers.Image = item.Image;
+                        getAllUsers.LastName = item.LastName;
+                        getAllUsers.FirstName = item.FirstName;
+                        getAllUsers.Email = item.Email;
+                        getAllUsers.UserId = item.ID;
+                        
+
+                        Follow f = DBContext.Follow.Where(fo => (fo.Follower_UserID == Userid) && (fo.Followed_UserID == getAllUsers.UserId)).FirstOrDefault();
+                        if (f != null)
                         {
-                            getAllUsers = new SearchDTO();
-                            getAllUsers.Image = item.Image;
-                            getAllUsers.LastName = item.LastName;
-                            getAllUsers.FirstName = item.FirstName;
-                            getAllUsers.Email = item.Email;
-                            getAllUsers.UserId = item.ID;
-                            resultList.Add(getAllUsers);
+                            getAllUsers.isFollowed = true;
                         }
-                            return resultList;
+                        else
+                            getAllUsers.isFollowed = false;
+
+                        resultList.Add(getAllUsers);
+                       
+                    }
+                    return resultList;
                 }
                 else
                {
-                        throw new Exceptions.UserNotExist("User Not Exists");
+                    return null;
                 }             
             }
             else
@@ -41,9 +52,9 @@ namespace GlitterTweeting.Data.DB_Context
             }            
         }
 
-        public IList<SearchDTO> GetAllHashTag(string searchString)
+        public IList<SearchDTO> GetAllHashTag(string searchString,Guid Userid)
         {
-            if (searchString != null)
+            if (searchString != null && searchString!="")
             {
                 IList<SearchDTO> resultList = new List<SearchDTO>();
                 SearchDTO getAllTags;

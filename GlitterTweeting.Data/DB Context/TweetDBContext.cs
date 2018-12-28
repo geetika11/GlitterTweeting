@@ -47,7 +47,8 @@ namespace GlitterTweeting.Data.DB_Context
             tweetList = (from u in DBContext.Follow.Where(ds => ds.Follower_UserID == id)
                          join uf in DBContext.Follow on u.Followed_UserID equals uf.Followed_UserID
                          join t in DBContext.Tweet on uf.Followed_UserID equals t.UserID
-                         join user in DBContext.User on t.UserID equals user.ID
+                         join user in DBContext.User on t.UserID equals user.ID 
+                         
                          orderby t.CreatedAt descending
                          select new GetAllTweetsDTO() {
                              Message = t.Message,
@@ -55,7 +56,7 @@ namespace GlitterTweeting.Data.DB_Context
                              UserName = user.FirstName + user.LastName,
                              IsAuthor = false ,
                              TweetID=t.ID
-                         }).ToList();
+                         }).Distinct().ToList();
             foreach(var iter in tweetList)
             {
                 LikeTweet t = DBContext.LikeTweet.Where(x => (x.UserID == id) && (x.TweetID == iter.TweetID)).FirstOrDefault();
@@ -110,7 +111,7 @@ namespace GlitterTweeting.Data.DB_Context
                 Tweet tweet = DBContext.Tweet.Where(ds => ds.ID == tid && ds.UserID==uid).FirstOrDefault();
                 if (tweet!=null)
                 {
-                    tagdb.DeleteTag(tweet);
+                    tagdb.DeleteTag(tweet.ID);
                     DBContext.Entry(tweet).State = EntityState.Deleted;
                     DBContext.SaveChanges();
                     return true;
@@ -120,15 +121,17 @@ namespace GlitterTweeting.Data.DB_Context
             }
         }
 
-        public void UpdateTweet(NewTweetDTO updatedTweet)
+        public Guid UpdateTweet(NewTweetDTO updatedTweet)
         {
             using (glitterEntities DBContext = new glitterEntities())
             {
                 Tweet tweet = DBContext.Tweet.Where(ds => ds.ID == updatedTweet.TweetID).FirstOrDefault();
+                
                 tweet.Message = updatedTweet.Message;
                 tweet.CreatedAt = System.DateTime.Now;
                 DBContext.SaveChanges();
             }
+            return updatedTweet.TweetID;
            
         }
 
